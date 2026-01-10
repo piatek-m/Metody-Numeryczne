@@ -1,0 +1,28 @@
+//
+//Obliczanie pierwszej pochodnej czastkowej funkcji f(x,y,z) 3 zmiennych 
+//tu: pochodna liczona wzorem RSC rzedu O(h2) wzgledem zmiennej nr (nr = 1,2,3) 
+//
+
+double poch_1_cz(short int nr, double h, double x, double y, double z)
+{
+ double w_ip1 = 0, w_im1 = 0; 
+  //w_ip1 odpowiada y_(i+1), w_im1: y_(i-1), w_ip2 odpowiada y_(i+2) itd.
+ switch(nr) {
+  case 1: w_ip1 = f(x+h,y,z); w_im1 = f(x-h,y,z); break; //gdy pochodna po x
+  case 2: w_ip1 = f(x,y+h,z); w_im1 = f(x,y-h,z); break; //gdy pochodna po y
+  case 3: w_ip1 = f(x,y,z+h); w_im1 = f(x,y,z-h); break; //gdy pochodna po z
+  default: cout<<"wybierz numer zmiennej: 1->x, 2->y, 3->z"<<endl; break;
+ }
+ return (w_ip1 - w_im1)/(2*h);
+}
+
+// Przykład: 
+// Obliczyć wszystkie pochodne cząstkowe (pierwszego rzędu) funkcji: 
+// f(x,y,z) = exp(x+2y+3z)  w punkcie P0 = (x0,y0,z0) = (0,0,0). Przyjąć h = 0.00001. 
+
+// Wyświetlenie wyników: 
+// P0 = (x0,y0,z0) = (?,?,?)
+// f'x(P0) = ...?
+// f'y(P0) = ...?
+// f'z(P0) = ...?
+
