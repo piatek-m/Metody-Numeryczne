@@ -1,5 +1,6 @@
 # Visual Studio Code configs
 **/.vscode
+.vscode
 
 # Prerequisites
 *.d
