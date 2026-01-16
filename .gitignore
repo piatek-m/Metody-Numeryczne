@@ -2,6 +2,9 @@
 **/.vscode
 .vscode
 
+# Binary directories
+bin/
+
 # Prerequisites
 *.d
 
