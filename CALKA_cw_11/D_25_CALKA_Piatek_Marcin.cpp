@@ -84,7 +84,7 @@ int main()
 {
     constexpr double epsilon{1e-4};
 
-    std::cout.precision(10);
+    std::cout.precision(20);
 
     // Przedział całki
     int a{0}, b{5};

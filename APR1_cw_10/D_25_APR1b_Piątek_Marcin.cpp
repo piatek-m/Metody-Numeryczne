@@ -34,7 +34,7 @@ Vector aprroximatePolynomial(const Vector &x, const Vector &y, const int m, cons
 
 int main()
 {
-    std::cout << std::fixed << std::setprecision(20);
+    std::cout.precision(15);
 
     // Dane wejściowe - zad. 1
     Vector x = {1.0, 1.5, 2.0, 4.0, 6.0, 7.0};
@@ -42,12 +42,12 @@ int main()
 
     const int n{static_cast<int>(x.size())};
 
-    std::cout << "--- APROKSYMACJA FUNKCJI ---\n\n";
+    std::cout << "\n\n\t\t\tAPROKSYMACJA FUNKCJI\n\n";
     std::cout << "Liczba punktów: " << x.size() << "\n";
-    std::cout << "Punkty (węzły):\n";
+    std::cout << "Węzły:\n";
     for (size_t i = 0; i < x.size(); ++i)
     {
-        std::cout << "  i=" << i << ": (" << x[i] << ", " << y[i] << ")\n";
+        std::cout << "\ti=" << i << ": (" << x[i] << ", " << y[i] << ")\n";
     }
 
     std::cout << "\nWprowadź m: ";
@@ -60,29 +60,30 @@ int main()
         // Obliczanie współczynników i zapisanie ich w wektorze p
         Vector p = aprroximatePolynomial(x, y, m, n);
 
-        std::cout << "\n--- Współczynniki (a_0, a_1, ..., a_n) ---\n";
+        std::cout << "\nWspółczynniki (a_0, a_1, ..., a_n)\n";
         for (size_t i = 0; i < p.size(); ++i)
         {
-            std::cout << "a[" << i << "] = " << std::setw(15) << p[i] << "\n";
+            std::cout << "\ta[" << i << "] = " << p[i] << "\n";
         }
 
         // Sprawdzenie w węzłach
-        std::cout << "\n--- Weryfikacja w węzłach ---\n";
-        std::cout << std::setw(8) << "x_i"
-                  << std::setw(15) << "P(x_i)"
-                  << std::setw(15) << "y_i"
-                  << std::setw(18) << "błąd S\n";
-        std::cout << std::string(56, '-') << "\n";
+        std::cout << "\nWeryfikacja w węzłach \n";
+        std::cout << std::setw(10) << "x_i "
+                  << std::setw(15) << "P(x_i) "
+                  << std::setw(15) << "y_i "
+                  << std::setw(15) << "błąd S\n ";
+        std::cout
+            << std::string(56, '-') << "\n";
 
         int n = static_cast<int>(p.size()) - 1;
         for (size_t i = 0; i < x.size(); ++i)
         {
             double pxi = evaluatePolynomial(x[i], n, p);
             double error = S(x, y, n, m, p);
-            std::cout << std::setw(8) << x[i]
+            std::cout << std::setw(10) << x[i]
                       << std::setw(15) << pxi
                       << std::setw(15) << y[i]
-                      << std::setw(18) << error << "\n";
+                      << std::setw(15) << error << "\n";
         }
 
         // Interakcja z użytkownikiem
@@ -241,7 +242,7 @@ double S(Vector x, Vector y, unsigned n, unsigned m, const Vector &a)
 {
     double sum{};
 
-    for (int j = 0; j < n; ++j)
+    for (int j = 0; j < x.size(); ++j)
     {
         sum += (evaluatePolynomial(x[j], m, a) - y[j]) * (evaluatePolynomial(x[j], m, a) - y[j]);
     }
@@ -264,14 +265,11 @@ Vector aprroximatePolynomial(const Vector &x, const Vector &y, const int m, cons
         }
     }
 
-    for (int i = 0; i < m + 1; i++)
-        mtrx[i][m + 1] = b[i];
-
     std::cout << "\n--- Macierz układu równań ---\n";
     printMatrix(mtrx);
 
     // Rozwiąż układ równań metodą Gaussa-Jordana
-    Vector wspolczynniki = gaussJordan(mtrx, y);
+    Vector wspolczynniki = gaussJordan(mtrx, b);
 
     return wspolczynniki;
 }
@@ -302,7 +300,7 @@ double fi(double x, unsigned k)
     // Dla k≥2 używamy rekurencji iteracyjnej
     double fi_k{};
 
-    fi_k = (k - 1.0 / k + 1.0) * x * fi(x, k - 1) -
+    fi_k = (k - 1.0) / (k + 1.0) * x * fi(x, k - 1) -
            1.0 / k * fi(x, k - 2);
 
     return fi_k;
@@ -325,7 +323,7 @@ Matrix buildAugmentedMtrx(const Vector &x, unsigned m, unsigned n)
                 // 1.0 = w(x)
                 sum += fi(x[t], i) * fi(x[t], j);
             }
-            augMtrx[i][j] = fi(x[i], j);
+            augMtrx[i][j] = sum;
         }
     }
 

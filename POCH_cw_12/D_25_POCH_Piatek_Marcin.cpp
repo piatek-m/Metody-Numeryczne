@@ -134,11 +134,11 @@ deriv_values RSC(double x = 1, double h = 1e-4, int i = 0)
 
 int main()
 {
-    constexpr double x = 1;
+    constexpr double x{1.};
     constexpr int wezel{0};
     constexpr double krok_h{1e-4};
 
-    std::cout.precision(12);
+    std::cout.precision(15);
 
     std::cout << "\n\n\t Krok h = ";
     std::cout << krok_h << "\n";
@@ -150,7 +150,7 @@ int main()
 
     // Wypisywanie wyników różniczkowania
     auto printResult{
-        [x, d_vals]()
+        [x, &d_vals]()
         {
             std::cout << "\n\t\tf'(" << x << ") = " << d_vals.first_degree;
             std::cout << "\n\t\tf''(" << x << ") = " << d_vals.second_degree;
